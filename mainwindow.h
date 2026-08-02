@@ -28,6 +28,11 @@ public:
     ~MainWindow() override;
 
 
+private slots:
+    int newPassword();
+
+    void on_btnNewPassword_clicked();
+
 private:
     Ui::MainWindow *ui;
     hash<string> hasher; // Hash-Objekt für Strings
@@ -36,6 +41,5 @@ private:
     void sleep(int seconds);
     void loadPasswords();
     string searchPassword(string searchTerm);
-    int newPassword();
 };
 #endif // MAINWINDOW_H
