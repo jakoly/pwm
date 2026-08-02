@@ -4,13 +4,8 @@
 #include <QMainWindow>
 #include <iostream>
 #include <string>
-#include <functional> // für std::hash
-#include <cstdlib>
-#include <thread>
-#include <chrono>
-#include <fstream>
-#include <iostream>
 #include <vector>
+#include "encrypt.h"
 using namespace std;
 
 QT_BEGIN_NAMESPACE
@@ -26,8 +21,12 @@ class MainWindow : public QMainWindow
 public:
     explicit MainWindow(QWidget *parent = nullptr);
     ~MainWindow() override;
-    vector<vector<string>> passwords;
+    vector<vector<string>> passwords; // {name, entschluesseltes Passwort}
 
+    // Fuehrt den Master-Passwort-Dialog aus. Bei falschem Passwort kann der
+    // Nutzer es erneut versuchen. Gibt false zurueck, wenn abgebrochen wurde
+    // (die App sollte sich dann beenden).
+    bool unlockVault();
 
 private slots:
     void on_btnNewPassword_clicked();
@@ -36,10 +35,8 @@ private slots:
 
 private:
     Ui::MainWindow *ui;
-    hash<string> hasher; // Hash-Objekt für Strings
-    size_t mPassword = 5411735986536431176;
+    Encrypt m_encrypt;
 
-    void sleep(int seconds);
     void loadPasswords();
     string searchPassword(string searchTerm);
 };

@@ -3,12 +3,14 @@
 #include "encrypt.h"
 #include <vector>
 #include <QTimer>
+#include <QMessageBox>
 using namespace std;
 
-addPassword::addPassword(vector<vector<string>> *passwords, QWidget *parent)
+addPassword::addPassword(vector<vector<string>> *passwords, Encrypt *encrypt, QWidget *parent)
     : QDialog(parent)
     , ui(new Ui::addPassword)
     , m_passwords(passwords)
+    , m_encrypt(encrypt)
 {
     ui->setupUi(this);
     ui->btnAdd->setEnabled(false);
@@ -28,7 +30,7 @@ addPassword::~addPassword()
 
 void addPassword::on_btnCancel_clicked()
 {
-
+    reject();
 }
 
 
@@ -36,12 +38,20 @@ void addPassword::on_btnAdd_clicked()
 {
     string newName = ui->editName->text().toStdString();
     string newPassword = ui->editPassword->text().toStdString();
-    string password = encryptText(newPassword);
-    m_passwords->push_back({newName, password});
+
+    string encryptedPassword;
+    try {
+        encryptedPassword = m_encrypt->encryptText(newPassword);
+    } catch (const std::exception& e) {
+        QMessageBox::warning(this, "Fehler", "Verschluesselung fehlgeschlagen.");
+        return;
+    }
+
+    m_passwords->push_back({newName, newPassword}); // Klartext im Speicher fuer die Anzeige
 
     ofstream file("passwords.txt", ios::app);
     if (file.is_open()) {
-        file << newName << "," << password << endl;
+        file << newName << "," << encryptedPassword << endl;
         file.close();
     }
 
