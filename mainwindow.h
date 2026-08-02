@@ -26,11 +26,10 @@ class MainWindow : public QMainWindow
 public:
     explicit MainWindow(QWidget *parent = nullptr);
     ~MainWindow() override;
+    vector<vector<string>> passwords;
 
 
 private slots:
-    int newPassword();
-
     void on_btnNewPassword_clicked();
 
 private:

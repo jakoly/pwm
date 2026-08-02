@@ -58,7 +58,7 @@
      </rect>
     </property>
     <property name="text">
-     <string>New Password</string>
+     <string>Add Password</string>
     </property>
    </widget>
   </widget>
