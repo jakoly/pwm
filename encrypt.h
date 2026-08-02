@@ -1,8 +1,11 @@
 #ifndef ENCRYPT_H
 #define ENCRYPT_H
 #include <string>
-#include "stdio.h"
-#include "stdlib.h"
+#include <argon2.h>
+#include <cstring>
+#include <iostream>
+#include <vector>
+#include <random>
 
 class encrypt
 {

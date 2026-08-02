@@ -32,6 +32,8 @@ public:
 private slots:
     void on_btnNewPassword_clicked();
 
+    void on_pushButton_clicked();
+
 private:
     Ui::MainWindow *ui;
     hash<string> hasher; // Hash-Objekt für Strings
